@@ -1,0 +1,60 @@
+<html>
+<head>
+<title>Root Webserver</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="icon" href="https://raw.githubusercontent.com/tuftsceeo/EV3AR/master/Webserver/gamepad-solid.png" type="image/png" sizes="16x16">
+</head>
+<body style="width:960px; margin: 20px auto;">
+<aside style="float:left;width:240px;padding:10px;">
+	<form id='connectForm' action="/" method="POST">
+	<center>
+		<button type="submit" name='Connect' value='True' class="button button1">Connect</button>
+	</center>
+	</form>
+	<center>
+		<h4>Drive Your Root Robot</h4><br>
+	</center>
+	<form action="/" method="POST" >
+		<center>
+			<button type="submit" name='Fwd' value='True' style="font-size:48px"><i class="fa fa-arrow-circle-up"></i></button>
+		</center><br>
+		<center>
+			<button type="submit" name='Left' value='True'style="font-size:48px"><i class="fa fa-arrow-circle-left"></i></button> 
+			&nbsp&nbsp
+			<button type="submit" name='Stop' value='True' style="font-size:48px"><i class="fa fa-stop-circle"></i></button> 
+			&nbsp&nbsp
+			<button type="submit" name='Right' value='True' style="font-size:48px"><i class="fa fa-arrow-circle-right"></i></button>
+		</center><br>
+		<center>
+			<button type="submit" name='Bkwd' value='True' style="font-size:48px"><i class="fa fa-arrow-circle-down"></i></button>
+		</center>
+	</form>
+	<form id="slide" action="/" method="POST">
+		<input type="range" name="submit" step="5" min="0" max="90" value="90" class="slider" id="Rate">
+		<input hidden id='submitRate' type='submit' name='Rate' value='True' tabindex='-1'>
+	</form>
+	<form hidden id='RateForm' action="/" method="POST">
+		<input id='RateFormText' type='text' name='Rate' tabindex='-1'>
+	</form>
+	<center>
+		<h4 hidden id='RateSetting'>%s</h4>
+		<h4 id="RateText"></h4>
+	</center>
+</aside>
+<form id='reload'>
+	<input hidden type='submit' name='reload' value='True' tabindex='-1'>
+</form>
+</body>
+<script>
+	document.getElementById("Rate").addEventListener("change", submit);
+	function submit() {
+		document.getElementById('RateFormText').value = 
+		document.getElementById('Rate').value 
+    	document.getElementById('RateForm').submit();
+	} 
+    document.getElementById("Rate").value =
+    document.getElementById("RateSetting").innerHTML;
+    document.getElementById("RateText").innerHTML = 
+    'Rate:'+document.getElementById("RateSetting").innerHTML+'/100';
+</script>
