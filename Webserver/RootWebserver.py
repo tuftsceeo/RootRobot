@@ -11,8 +11,8 @@ import threading
 import time,termios,tty,sys
 
 connected = False
-pageContent = open('RootWebserver.html').read()%('90')+open('styleSheet.html').read()
-rate = 90 # Set rate
+pageContent = open('RootWebserver.html').read()%('0')+open('styleSheet.html').read()
+rate = 0 # Set rate
 
 def setPageContent():
     global pageContent, rate
