@@ -88,5 +88,56 @@ div.contain {
   padding: 10px;
   overflow: auto;
 }
+
+.green{
+  color: #38DF44;
+}
+.red{
+  color: red;
+}
+.buttonRed{
+  font-size: 25px;
+  color: red;
+}
+.blinkingGreen{
+  animation:blinkingTextGreen 2s infinite;
+}
+.dotGreen {
+  animation:blinkingDotGreen 2s infinite;
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.blinkingRed{
+  animation:blinkingTextRed 2s infinite;
+}
+.dotRed {
+  animation:blinkingDotRed 2s infinite;
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+@keyframes blinkingTextGreen{
+  0%{   color: #38DF44;  }
+  50%{  color: transparent; }
+  100%{ color: #38DF44;  }
+}
+@keyframes blinkingDotGreen{
+  0%{   background-color: #38DF44;  }
+  50%{  background-color: transparent; }
+  100%{ background-color: #38DF44;  }
+}
+@keyframes blinkingTextRed{
+  0%{   color: red;  }
+  50%{  color: transparent; }
+  100%{ color: red;  }
+}
+@keyframes blinkingDotRed{
+  0%{   background-color: red;  }
+  50%{  background-color: transparent; }
+  100%{ background-color: red;  }
+}
 </style>
 </html>
