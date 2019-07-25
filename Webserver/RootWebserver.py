@@ -30,6 +30,8 @@ def connectRoot():
     manager.start_discovery(service_uuids=[root_identifier_uuid])
     thread = threading.Thread(target = manager.run)
     thread.start()
+    while manager.robot is None:
+        pass
     connected = True
     return  manager, connected, thread
 
@@ -172,7 +174,7 @@ class MyServer(BaseHTTPRequestHandler):
         self.wfile.write(pageContent.encode("utf-8"))
 
     def do_POST(self):
-        global pageContent, manager, connected, thread
+        global pageContent, manager, connected, thread, rate
         angle = 0
         content_length = int(self.headers['Content-Length'])  # Get the size of data
         post_data = self.rfile.read(content_length).decode('utf-8')  # Get the data
@@ -215,14 +217,13 @@ class MyServer(BaseHTTPRequestHandler):
                 disconnectRoot()
         setPageContent()
         self._redirect('/')  # Redirect back to the root url
-        return pageContent, manager, connected, thread
+        return pageContent, manager, connected, thread, rate
 
 # Create Webserver
 if __name__ == '__main__':
     http_server = HTTPServer((ip_address, host_port), MyServer)
     print("Server Starts - %s:%s" % (ip_address, host_port))
     try:
-        connectRoot()
         http_server.serve_forever()
     except KeyboardInterrupt:
         disconnectRoot()
