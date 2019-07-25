@@ -24,6 +24,16 @@ def changeTurnRate(NewTurnRate):
    rate = NewTurnRate
    return rate
 
+def connectRoot():
+    global manager, connected
+    manager = BluetoothDeviceManager(adapter_name = 'hci0')
+    manager.start_discovery(service_uuids=[root_identifier_uuid])
+    thread = threading.Thread(target = manager.run)
+    thread.start()
+    connected = True
+    return  manager, connected
+
+
 # Get IP Address
 ip_address = '';
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -153,7 +163,7 @@ class MyServer(BaseHTTPRequestHandler):
         self.wfile.write(pageContent.encode("utf-8"))
 
     def do_POST(self):
-        global pageContent, manager
+        global pageContent, manager, connected
         angle = 0
         content_length = int(self.headers['Content-Length'])  # Get the size of data
         post_data = self.rfile.read(content_length).decode('utf-8')  # Get the data
@@ -199,18 +209,14 @@ class MyServer(BaseHTTPRequestHandler):
                 thread.join()
         setPageContent()
         self._redirect('/')  # Redirect back to the root url
-        return pageContent, manager
+        return pageContent, manager, connected
 
 # Create Webserver
 if __name__ == '__main__':
     http_server = HTTPServer((ip_address, host_port), MyServer)
     print("Server Starts - %s:%s" % (ip_address, host_port))
     try:
-        manager = BluetoothDeviceManager(adapter_name = 'hci0')
-        manager.start_discovery(service_uuids=[root_identifier_uuid])
-        thread = threading.Thread(target = manager.run)
-        thread.start()
-        connected = True
+        connectRoot()
         http_server.serve_forever()
     except KeyboardInterrupt:
         manager.stop()
