@@ -206,5 +206,9 @@ if __name__ == '__main__':
         manager = BluetoothDeviceManager(adapter_name = 'hci0')
         http_server.serve_forever()
     except KeyboardInterrupt:
+        manager.stop()
+        manager.robot.disconnect()
+        print("Disconnected")
+        thread.join()
         http_server.server_close()
         print("\n-------------------EXIT-------------------")
