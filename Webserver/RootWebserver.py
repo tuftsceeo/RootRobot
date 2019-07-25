@@ -153,13 +153,12 @@ class MyServer(BaseHTTPRequestHandler):
         self.wfile.write(pageContent.encode("utf-8"))
 
     def do_POST(self):
-        global pageContent
+        global pageContent, manager
         angle = 0
         content_length = int(self.headers['Content-Length'])  # Get the size of data
         post_data = self.rfile.read(content_length).decode('utf-8')  # Get the data
         print(post_data)
         if 'Connect' in post_data:
-            manager = BluetoothDeviceManager(adapter_name = 'hci0')
             manager.start_discovery(service_uuids=[root_identifier_uuid])
             thread = threading.Thread(target = manager.run)
             thread.start()
@@ -190,7 +189,7 @@ class MyServer(BaseHTTPRequestHandler):
             thread.join()
         setPageContent()
         self._redirect('/')  # Redirect back to the root url
-        return pageContent
+        return pageContent, manager
 
 # Create Webserver
 if __name__ == '__main__':
@@ -198,6 +197,7 @@ if __name__ == '__main__':
     print("Server Starts - %s:%s" % (ip_address, host_port))
     try:
         http_server.serve_forever()
+        manager = BluetoothDeviceManager(adapter_name = 'hci0')
     except KeyboardInterrupt:
         http_server.server_close()
         print("\n-------------------EXIT-------------------")
