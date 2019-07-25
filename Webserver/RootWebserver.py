@@ -159,6 +159,7 @@ class MyServer(BaseHTTPRequestHandler):
         post_data = self.rfile.read(content_length).decode('utf-8')  # Get the data
         print(post_data)
         if 'Connect' in post_data:
+            manager = BluetoothDeviceManager(adapter_name = 'hci0')
             manager.start_discovery(service_uuids=[root_identifier_uuid])
             thread = threading.Thread(target = manager.run)
             thread.start()
@@ -204,6 +205,9 @@ if __name__ == '__main__':
     print("Server Starts - %s:%s" % (ip_address, host_port))
     try:
         manager = BluetoothDeviceManager(adapter_name = 'hci0')
+        manager.start_discovery(service_uuids=[root_identifier_uuid])
+        thread = threading.Thread(target = manager.run)
+        thread.start()
         http_server.serve_forever()
     except KeyboardInterrupt:
         manager.stop()
