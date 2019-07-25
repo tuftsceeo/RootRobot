@@ -163,7 +163,7 @@ class MyServer(BaseHTTPRequestHandler):
         self.wfile.write(pageContent.encode("utf-8"))
 
     def do_POST(self):
-        global pageContent, manager, connected
+        global pageContent, manager, connected, thread
         angle = 0
         content_length = int(self.headers['Content-Length'])  # Get the size of data
         post_data = self.rfile.read(content_length).decode('utf-8')  # Get the data
@@ -196,7 +196,7 @@ class MyServer(BaseHTTPRequestHandler):
                 manager.robot.stop()
         if 'Rate' in post_data:
             if connected is True:
-                rate = (post_data.split("=")[1])
+                rate = int(post_data.split("=")[1])
                 changeTurnRate(rate)
                 print ("Turning ", rate)
                 manager.robot.turn_rate(rate)
@@ -209,7 +209,7 @@ class MyServer(BaseHTTPRequestHandler):
                 thread.join()
         setPageContent()
         self._redirect('/')  # Redirect back to the root url
-        return pageContent, manager, connected
+        return pageContent, manager, connected, thread
 
 # Create Webserver
 if __name__ == '__main__':
