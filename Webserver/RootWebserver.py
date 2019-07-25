@@ -10,7 +10,7 @@ import gatt
 import threading
 import time,termios,tty,sys
 
-
+connected = False
 pageContent = open('RootWebserver.html').read()%('90')+open('styleSheet.html').read()
 rate = 90 # Set rate
 
@@ -163,37 +163,39 @@ class MyServer(BaseHTTPRequestHandler):
             manager.start_discovery(service_uuids=[root_identifier_uuid])
             thread = threading.Thread(target = manager.run)
             thread.start()
+            connected = True
         if 'Fwd' in post_data:
-            if manager.robot is None:
+            if connected is True:
                 print ("Drive forward")
                 manager.robot.drive_forward()
         if 'Left' in post_data:
-            if manager.robot is None:
+            if connected is True:
                 print ("Drive left")
                 manager.robot.drive_left()
         if 'Right' in post_data:
-            if manager.robot is None:
+            if connected is True:
                 print ("Drive right")
                 manager.robot.drive_right()
         if 'Bkwd' in post_data:
-            if manager.robot is None:
+            if connected is True:
                 print ("Drive backwards")
                 manager.robot.drive_backwards()
         if 'Stop' in post_data:
-            if manager.robot is None:
+            if connected is True:
                 print ("Stop")
                 manager.robot.stop()
         if 'Rate' in post_data:
-            if manager.robot is None:
+            if connected is True:
                 rate = (post_data.split("=")[1])
                 changeTurnRate(rate)
                 print ("Turning ", rate)
                 manager.robot.turn_rate(rate)
         if 'Disconnect' in post_data:
-            if manager.robot is None:
+            if connected is True:
                 manager.stop()
                 manager.robot.disconnect()
                 print("Disconnected")
+                connected = False
                 thread.join()
         setPageContent()
         self._redirect('/')  # Redirect back to the root url
@@ -208,11 +210,13 @@ if __name__ == '__main__':
         manager.start_discovery(service_uuids=[root_identifier_uuid])
         thread = threading.Thread(target = manager.run)
         thread.start()
+        connected = True
         http_server.serve_forever()
     except KeyboardInterrupt:
         manager.stop()
         manager.robot.disconnect()
         print("Disconnected")
+        connected = False
         thread.join()
         http_server.server_close()
         print("\n-------------------EXIT-------------------")
