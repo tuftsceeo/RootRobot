@@ -196,8 +196,8 @@ if __name__ == '__main__':
     http_server = HTTPServer((ip_address, host_port), MyServer)
     print("Server Starts - %s:%s" % (ip_address, host_port))
     try:
-        http_server.serve_forever()
         manager = BluetoothDeviceManager(adapter_name = 'hci0')
+        http_server.serve_forever()
     except KeyboardInterrupt:
         http_server.server_close()
         print("\n-------------------EXIT-------------------")
