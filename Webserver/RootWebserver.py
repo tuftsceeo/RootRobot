@@ -219,6 +219,7 @@ if __name__ == '__main__':
         connectRoot()
         http_server.serve_forever()
     except KeyboardInterrupt:
+        global thread
         manager.stop()
         manager.robot.disconnect()
         print("Disconnected")
