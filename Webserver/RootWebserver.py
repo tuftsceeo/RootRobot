@@ -163,30 +163,37 @@ class MyServer(BaseHTTPRequestHandler):
             thread = threading.Thread(target = manager.run)
             thread.start()
         if 'Fwd' in post_data:
-            print ("Drive forward")
-            manager.robot.drive_forward()
+            if manager.robot is None:
+                print ("Drive forward")
+                manager.robot.drive_forward()
         if 'Left' in post_data:
-            print ("Drive left")
-            manager.robot.drive_left()
+            if manager.robot is None:
+                print ("Drive left")
+                manager.robot.drive_left()
         if 'Right' in post_data:
-            print ("Drive right")
-            manager.robot.drive_right()
+            if manager.robot is None:
+                print ("Drive right")
+                manager.robot.drive_right()
         if 'Bkwd' in post_data:
-            print ("Drive backwards")
-            manager.robot.drive_backwards()
+            if manager.robot is None:
+                print ("Drive backwards")
+                manager.robot.drive_backwards()
         if 'Stop' in post_data:
-            print ("Stop")
-            manager.robot.stop()
+            if manager.robot is None:
+                print ("Stop")
+                manager.robot.stop()
         if 'Rate' in post_data:
-            rate = (post_data.split("=")[1])
-            changeTurnRate(rate)
-            print ("Turning ", rate)
-            manager.robot.turn_rate(rate)
+            if manager.robot is None:
+                rate = (post_data.split("=")[1])
+                changeTurnRate(rate)
+                print ("Turning ", rate)
+                manager.robot.turn_rate(rate)
         if 'Disconnect' in post_data:
-            print("Quitting")
-            manager.stop()
-            manager.robot.disconnect()
-            thread.join()
+            if manager.robot is None:
+                manager.stop()
+                manager.robot.disconnect()
+                print("Disconnected")
+                thread.join()
         setPageContent()
         self._redirect('/')  # Redirect back to the root url
         return pageContent, manager
