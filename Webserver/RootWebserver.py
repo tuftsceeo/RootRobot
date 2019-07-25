@@ -25,14 +25,22 @@ def changeTurnRate(NewTurnRate):
    return rate
 
 def connectRoot():
-    global manager, connected
+    global manager, connected, thread
     manager = BluetoothDeviceManager(adapter_name = 'hci0')
     manager.start_discovery(service_uuids=[root_identifier_uuid])
     thread = threading.Thread(target = manager.run)
     thread.start()
     connected = True
-    return  manager, connected
+    return  manager, connected, thread
 
+def disconnectRoot():
+    global manager, connected, thread
+    manager.stop()
+    manager.robot.disconnect()
+    print("Disconnected")
+    connected = False
+    thread.join()
+    return  manager, connected, thread
 
 # Get IP Address
 ip_address = '';
@@ -169,11 +177,7 @@ class MyServer(BaseHTTPRequestHandler):
         post_data = self.rfile.read(content_length).decode('utf-8')  # Get the data
         print(post_data)
         if 'Connect' in post_data:
-            manager = BluetoothDeviceManager(adapter_name = 'hci0')
-            manager.start_discovery(service_uuids=[root_identifier_uuid])
-            thread = threading.Thread(target = manager.run)
-            thread.start()
-            connected = True
+            connectRoot()
         if 'Fwd' in post_data:
             if connected is True:
                 print ("Drive forward")
@@ -202,11 +206,7 @@ class MyServer(BaseHTTPRequestHandler):
                 manager.robot.turn_rate(rate)
         if 'Disconnect' in post_data:
             if connected is True:
-                manager.stop()
-                manager.robot.disconnect()
-                print("Disconnected")
-                connected = False
-                thread.join()
+                disconnectRoot()
         setPageContent()
         self._redirect('/')  # Redirect back to the root url
         return pageContent, manager, connected, thread
@@ -219,11 +219,6 @@ if __name__ == '__main__':
         connectRoot()
         http_server.serve_forever()
     except KeyboardInterrupt:
-        global thread
-        manager.stop()
-        manager.robot.disconnect()
-        print("Disconnected")
-        connected = False
-        thread.join()
+        disconnectRoot()
         http_server.server_close()
         print("\n-------------------EXIT-------------------")
