@@ -12,12 +12,12 @@ import time,termios,tty,sys
 
 
 pageContent = open('RootWebserver.html').read()%('90')+open('styleSheet.html').read()
-rate = 90 # Set Speed
+rate = 90 # Set rate
 
 def setPageContent():
-    global pageContent, speed
-    pageContent = open('RootWebserver.html').read()%(str(speed))+open('styleSheet.html').read()
-    return pageContent, speed
+    global pageContent, rate
+    pageContent = open('RootWebserver.html').read()%(str(rate))+open('styleSheet.html').read()
+    return pageContent, rate
 
 def changeTurnRate(NewTurnRate):
    global rate
@@ -183,6 +183,11 @@ class MyServer(BaseHTTPRequestHandler):
             changeTurnRate(rate)
             print ("Turning ", rate)
             manager.robot.turn_rate(rate)
+        if 'Disconnect' in post_data:
+            print("Quitting")
+            manager.stop()
+            manager.robot.disconnect()
+            thread.join()
         setPageContent()
         self._redirect('/')  # Redirect back to the root url
         return pageContent
