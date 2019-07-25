@@ -11,12 +11,12 @@ import threading
 import time,termios,tty,sys
 
 connected = False
-pageContent = open('RootWebserver.html').read()%('0')+open('styleSheet.html').read()
+pageContent = open('RootWebserver.html').read()%(str(False),'0')+open('styleSheet.html').read()
 rate = 0 # Set rate
 
 def setPageContent():
     global pageContent, rate
-    pageContent = open('RootWebserver.html').read()%(str(rate))+open('styleSheet.html').read()
+    pageContent = open('RootWebserver.html').read()%(str(connected),str(rate))+open('styleSheet.html').read()
     return pageContent, rate
 
 def changeTurnRate(NewTurnRate):
@@ -167,6 +167,7 @@ class MyServer(BaseHTTPRequestHandler):
 
     def do_GET(self):
         global pageContent
+        setPageContent()
         self.do_HEAD(pageContent)
         self.wfile.write(pageContent.encode("utf-8"))
 
@@ -182,22 +183,27 @@ class MyServer(BaseHTTPRequestHandler):
             if connected is True:
                 print ("Drive forward")
                 manager.robot.drive_forward()
+                rate = 0
         if 'Left' in post_data:
             if connected is True:
                 print ("Drive left")
                 manager.robot.drive_left()
+                rate = 0
         if 'Right' in post_data:
             if connected is True:
                 print ("Drive right")
                 manager.robot.drive_right()
+                rate = 0
         if 'Bkwd' in post_data:
             if connected is True:
                 print ("Drive backwards")
                 manager.robot.drive_backwards()
+                rate = 0
         if 'Stop' in post_data:
             if connected is True:
                 print ("Stop")
                 manager.robot.stop()
+                rate = 0
         if 'Rate' in post_data:
             if connected is True:
                 rate = int(post_data.split("=")[1])
