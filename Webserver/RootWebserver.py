@@ -216,12 +216,10 @@ class MyServer(BaseHTTPRequestHandler):
             if connected is True:
                 print ("PenUp")
                 manager.robot.pen_up()
-                rate = 0
         if 'PenDown' in post_data:
             if connected is True:
                 print ("PenDown")
                 manager.robot.pen_down()
-                rate = 0
         if 'Disconnect' in post_data:
             if connected is True:
                 disconnectRoot()
