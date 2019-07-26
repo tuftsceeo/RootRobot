@@ -108,14 +108,13 @@ class RootDevice(gatt.Device):
         for byte in value:
             message.append(byte)
 #        print ("Messages from Root:")
-        if message[0] == 4: type = "Color Sensor"; sensorData = sensorData + 'Color Sensor Triggered\n'
-        if message[0] == 12: type = "Bumper"; sensorData = sensorData + 'Bumper Triggered\n'
-        if message[0] == 13: type = "Light Sensor"; sensorData = sensorData + 'Light Sensor Triggered\n'
-        if message[0] == 17: type = "Touch Sensor"; sensorData = sensorData + 'Touch Sensor Triggered\n'
-        if message[0] == 20: type = "Cliff Sensor"; sensorData = sensorData + 'Cliff Sensor Triggered\n'
+        if message[0] == 4: type = "Color Sensor"; sensorData = sensorData + 'Color Sensor Triggered<br>'
+        if message[0] == 12: type = "Bumper"; sensorData = sensorData + 'Bumper Triggered<br>'
+        if message[0] == 13: type = "Light Sensor"; sensorData = sensorData + 'Light Sensor Triggered<br>'
+        if message[0] == 17: type = "Touch Sensor"; sensorData = sensorData + 'Touch Sensor Triggered<br>'
+        if message[0] == 20: type = "Cliff Sensor"; sensorData = sensorData + 'Cliff Sensor Triggered<br>'
 
         print(type, message)
-        do_GET()
         return sensorData
 
     def drive_forward(self):
