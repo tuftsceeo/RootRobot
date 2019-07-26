@@ -102,6 +102,7 @@ class RootDevice(gatt.Device):
         self.rx_characteristic.enable_notifications() # listen to RX messages
 
     def characteristic_value_updated(self, characteristic, value):
+        global sensorData
         message = []
         type = ""
         for byte in value:
@@ -227,7 +228,7 @@ class MyServer(BaseHTTPRequestHandler):
                 disconnectRoot()
         setPageContent()
         self._redirect('/')  # Redirect back to the root url
-        return pageContent, manager, connected, thread, rate
+        return pageContent, manager, connected, thread, rate, sensorData
 
 # Create Webserver
 if __name__ == '__main__':
