@@ -231,6 +231,7 @@ class MyServer(BaseHTTPRequestHandler):
 if __name__ == '__main__':
     http_server = HTTPServer((ip_address, host_port), MyServer)
     print("Server Starts - %s:%s" % (ip_address, host_port))
+    webbrowser.open_new('http://%s:%s' %  (ip_address, host_port)) # Open in browser automatically
     try:
         http_server.serve_forever()
     except KeyboardInterrupt:
