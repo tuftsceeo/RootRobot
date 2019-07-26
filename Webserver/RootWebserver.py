@@ -12,14 +12,13 @@ import time,termios,tty,sys
 import datetime
 
 connected = False
-pageContent = open('RootWebserver.html').read()%(str(False),'0','')+open('styleSheet.html').read()
+pageContent = open('RootWebserver.html').read()%(str(False),'0','')
 rate = 0 # Set rate
 sensorData = ''
 
 def setPageContent():
     global pageContent, rate, sensorData
-    pageContent = open('RootWebserver.html').read()%(str(connected),str(rate),sensorData)+open('styleSheet.html').read()
-    return pageContent, rate, sensorData
+    pageContent = open('RootWebserver.html').read()%(str(connected),str(rate),sensorData)
 
 def changeTurnRate(NewTurnRate):
    global rate
