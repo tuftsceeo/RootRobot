@@ -1,3 +1,4 @@
+<style>
 .dirrectionbutton{
   border-radius: 8px;
   font-size:48px;
@@ -161,3 +162,4 @@ div.contain {
   50%{  background-color: transparent; }
   100%{ background-color: red;  }
 }
+</style>
