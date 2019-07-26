@@ -9,6 +9,7 @@ from time import sleep
 import gatt
 import threading
 import time,termios,tty,sys
+import datetime
 
 connected = False
 pageContent = open('RootWebserver.html').read()%(str(False),'0','')+open('styleSheet.html').read()
@@ -108,11 +109,21 @@ class RootDevice(gatt.Device):
         for byte in value:
             message.append(byte)
 #        print ("Messages from Root:")
-        if message[0] == 4: type = "Color Sensor"; sensorData = sensorData + 'Color Sensor Triggered<br>'
-        if message[0] == 12: type = "Bumper"; sensorData = sensorData + 'Bumper Triggered<br>'
-        if message[0] == 13: type = "Light Sensor"; sensorData = sensorData + 'Light Sensor Triggered<br>'
-        if message[0] == 17: type = "Touch Sensor"; sensorData = sensorData + 'Touch Sensor Triggered<br>'
-        if message[0] == 20: type = "Cliff Sensor"; sensorData = sensorData + 'Cliff Sensor Triggered<br>'
+        if message[0] == 4: 
+            type = "Color Sensor"; 
+            sensorData = sensorData + datetime.datetime.now().time() + ': Color Sensor Triggered<br>'
+        if message[0] == 12: 
+            type = "Bumper"; 
+            sensorData = sensorData + datetime.datetime.now().time() + ': Bumper Triggered<br>'
+        if message[0] == 13: 
+            type = "Light Sensor"; 
+            sensorData = sensorData + datetime.datetime.now().time() + ': Light Sensor Triggered<br>'
+        if message[0] == 17: 
+            type = "Touch Sensor"; 
+            sensorData = sensorData + datetime.datetime.now().time() + ': Touch Sensor Triggered<br>'
+        if message[0] == 20: 
+            type = "Cliff Sensor"; 
+            sensorData = sensorData + datetime.datetime.now().time() + ': Cliff Sensor Triggered<br>'
 
         print(type, message)
         return sensorData
