@@ -126,7 +126,7 @@ class RootDevice(gatt.Device):
             sensorData = sensorData + str(datetime.datetime.now().time()) + ': Cliff Sensor Triggered<br>'
 
         print(type, message)
-        MyServer().do_POST()
+        # MyServer().do_POST() # Find a way to call MyServer.do_POST to post everytime a sensor is triggered
         return sensorData
 
     def drive_forward(self):
