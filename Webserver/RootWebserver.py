@@ -111,19 +111,19 @@ class RootDevice(gatt.Device):
 #        print ("Messages from Root:")
         if message[0] == 4: 
             type = "Color Sensor"; 
-            sensorData = sensorData + str(datetime.datetime.now().time()) + ': Color Sensor Triggered<br>'
+            sensorData = sensorData + str(datetime.datetime.now().strftime('%H:%M:%S')) + ': Color Sensor Triggered<br>'
         if message[0] == 12: 
             type = "Bumper"; 
-            sensorData = sensorData + str(datetime.datetime.now().time()) + ': Bumper Triggered<br>'
+            sensorData = sensorData + str(datetime.datetime.now().strftime('%H:%M:%S')) + ': Bumper Triggered<br>'
         if message[0] == 13: 
             type = "Light Sensor"; 
-            sensorData = sensorData + str(datetime.datetime.now().time()) + ': Light Sensor Triggered<br>'
+            sensorData = sensorData + str(datetime.datetime.now().strftime('%H:%M:%S')) + ': Light Sensor Triggered<br>'
         if message[0] == 17: 
             type = "Touch Sensor"; 
-            sensorData = sensorData + str(datetime.datetime.now().time()) + ': Touch Sensor Triggered<br>'
+            sensorData = sensorData + str(datetime.datetime.now().strftime('%H:%M:%S')) + ': Touch Sensor Triggered<br>'
         if message[0] == 20: 
             type = "Cliff Sensor"; 
-            sensorData = sensorData + str(datetime.datetime.now().time()) + ': Cliff Sensor Triggered<br>'
+            sensorData = sensorData + str(datetime.datetime.now().strftime('%H:%M:%S')) + ': Cliff Sensor Triggered<br>'
 
         print(type, message)
         # MyServer().do_POST() # Find a way to call MyServer.do_POST to post everytime a sensor is triggered
