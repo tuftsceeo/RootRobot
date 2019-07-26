@@ -5,4 +5,4 @@ Move the files **RootWebserver.py**, **RootWebserver.html**, & **styleSheet.html
 The Raspberry Pi will serve a webpage that can be used to contol the movement of a <a href=https://root.irobot.com/>Root Robot</a>
 
 Demo Screenshot:
-![alt text](https://github.com/tuftsceeo/RootRobot/blob/master/Webserver/RootWebserver.png?raw=true)
+![alt text](https://github.com/tuftsceeo/RootRobot/blob/master/Webserver/RootWebserverV2.png?raw=true)
