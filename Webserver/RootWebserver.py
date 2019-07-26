@@ -13,6 +13,7 @@ import time,termios,tty,sys
 connected = False
 pageContent = open('RootWebserver.html').read()%(str(False),'0','')+open('styleSheet.html').read()
 rate = 0 # Set rate
+sensorData = ''
 
 def setPageContent():
     global pageContent, rate, sensorData
